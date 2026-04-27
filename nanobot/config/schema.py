@@ -90,6 +90,7 @@ class AgentDefaults(Base):
         validation_alias=AliasChoices("idleCompactAfterMinutes", "sessionTtlMinutes"),
         serialization_alias="idleCompactAfterMinutes",
     )  # Auto-compact idle threshold in minutes (0 = disabled)
+    session_scoped_history: bool = False  # Enable per-session history files (dual-write to history-{session_key}.jsonl)
     consolidation_ratio: float = Field(
         default=0.5,
         ge=0.1,
