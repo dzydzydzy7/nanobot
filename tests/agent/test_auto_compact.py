@@ -637,7 +637,7 @@ class TestProactiveAutoCompact:
         started = asyncio.Event()
         block_forever = asyncio.Event()
 
-        async def _slow_archive(messages):
+        async def _slow_archive(messages, **kwargs):
             nonlocal archive_count
             archive_count += 1
             started.set()
@@ -670,7 +670,7 @@ class TestProactiveAutoCompact:
         session.updated_at = datetime.now() - timedelta(minutes=20)
         loop.sessions.save(session)
 
-        async def _failing_archive(messages):
+        async def _failing_archive(messages, **kwargs):
             raise RuntimeError("LLM down")
 
         loop.consolidator.archive = _failing_archive
