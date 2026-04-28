@@ -91,6 +91,10 @@ class AgentDefaults(Base):
         serialization_alias="idleCompactAfterMinutes",
     )  # Auto-compact idle threshold in minutes (0 = disabled)
     session_scoped_history: bool = False  # Enable per-session history files (dual-write to history-{session_key}.jsonl)
+    max_messages: int = Field(
+        default=120,
+        ge=0,
+    )  # Max messages to replay from session history (0 = use default 120, respects token budget)
     consolidation_ratio: float = Field(
         default=0.5,
         ge=0.1,
@@ -123,6 +127,7 @@ class ProvidersConfig(Base):
     anthropic: ProviderConfig = Field(default_factory=ProviderConfig)
     openai: ProviderConfig = Field(default_factory=ProviderConfig)
     openrouter: ProviderConfig = Field(default_factory=ProviderConfig)
+    huggingface: ProviderConfig = Field(default_factory=ProviderConfig)
     deepseek: ProviderConfig = Field(default_factory=ProviderConfig)
     groq: ProviderConfig = Field(default_factory=ProviderConfig)
     zhipu: ProviderConfig = Field(default_factory=ProviderConfig)
